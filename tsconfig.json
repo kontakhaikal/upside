@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "paths": {
+            "@/*": ["./resources/ts/*"],
+            "@/components/*": ["./resources/ts/components/*"],
+            "@/lib/*": ["./resources/ts/lib/*"],
+            "ziggy": ["./vendor/tightenco/ziggy"]
+        },
+        "module": "Preserve",
+        "moduleResolution": "bundler",
+        "strict": true
+    }
+}
