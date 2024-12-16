@@ -3,20 +3,32 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "storybook": "storybook dev -p 6006",
+        "build-storybook": "storybook build"
     },
     "devDependencies": {
+        "@chromatic-com/storybook": "^3.2.2",
+        "@faker-js/faker": "^9.3.0",
+        "@storybook/addon-essentials": "^8.4.7",
+        "@storybook/addon-interactions": "^8.4.7",
+        "@storybook/addon-onboarding": "^8.4.7",
+        "@storybook/blocks": "^8.4.7",
+        "@storybook/test": "^8.4.7",
+        "@storybook/vue3": "^8.4.7",
+        "@storybook/vue3-vite": "^8.4.7",
+        "@types/node": "^22.10.1",
+        "@vitejs/plugin-vue": "^5.2.1",
         "autoprefixer": "^10.4.20",
         "axios": "^1.7.4",
         "concurrently": "^9.0.1",
         "laravel-vite-plugin": "^1.0",
         "postcss": "^8.4.47",
+        "storybook": "^8.4.7",
         "tailwindcss": "^3.4.13",
-        "vite": "^5.0",
-        "@vitejs/plugin-vue": "^5.2.1"
+        "vite": "^5.0"
     },
     "dependencies": {
-        "@growthbunker/vuedarkmode": "^0.5.56",
         "@inertiajs/vue3": "^1.2.0",
         "@radix-icons/vue": "^1.0.0",
         "@vueuse/core": "^12.0.0",

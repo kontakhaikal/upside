@@ -3,11 +3,11 @@
         "paths": {
             "@/*": ["./resources/ts/*"],
             "@/components/*": ["./resources/ts/components/*"],
-            "@/lib/*": ["./resources/ts/lib/*"],
-            "ziggy": ["./vendor/tightenco/ziggy"]
+            "@/lib/*": ["./resources/ts/lib/*"]
         },
         "module": "Preserve",
         "moduleResolution": "bundler",
-        "strict": true
+        "strict": true,
+        "sourceMap": true
     }
 }

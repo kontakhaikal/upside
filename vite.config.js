@@ -13,6 +13,7 @@ export default defineConfig({
     ],
     resolve: {
         alias: {
+            '@/': path.resolve(__dirname, path.join('resources', 'ts')),
             '@/components': path.resolve(
                 __dirname,
                 path.join('resources', 'ts', 'components')
@@ -21,7 +22,6 @@ export default defineConfig({
                 __dirname,
                 path.join('resources', 'ts', 'lib')
             ),
-            ziggy: path.resolve('vendor/tightenco/ziggy'),
         },
     },
 })

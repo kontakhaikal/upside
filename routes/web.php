@@ -1,10 +1,27 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginUserController;
 use App\Http\Controllers\Auth\RegisterUserController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\SideController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/auth/_register', [RegisterUserController::class, 'showRegistrationPage'])->name('show.register');
-Route::post('/auth/_register', [RegisterUserController::class, 'processRegistration'])->name('process.register');
+Route::get('/auth/_register', [RegisterUserController::class, 'showRegistrationPage'])->name('register.show');
+Route::post('/auth/_register', [RegisterUserController::class, 'processRegistration'])->name('register.process');
 
-Route::get('/auth/_login', []);
-Route::post('/auth/_login', []);
+Route::get('/auth/_login', [LoginUserController::class, 'showLoginPage'])->name('login.show');
+Route::post('/auth/_login', [LoginUserController::class, 'processLogin'])->name('login.process');
+
+Route::get('/', [HomeController::class, 'showHomePage'])->name('home');
+
+Route::get('/s/{sideId}', [SideController::class, 'showSidePage'])->name('side.show');
+Route::get('/p/{postId}', [PostController::class, 'showPostDetail'])->name('post.show');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/s', [SideController::class, 'showCreateSidePage'])->name('create-side.show');
+    Route::post('/s', [SideController::class, 'processCreateSide'])->name('create-side.process');
+    Route::post('/s/{sideId}/_join', [SideController::class, 'processJoinSide'])->name('join-side.process');
+    Route::get('/p', [PostController::class, 'showCreatePostPage'])->name('create-post.show');
+    Route::post('/p', [PostController::class, 'processCreatePost'])->name('create-post.process');
+});

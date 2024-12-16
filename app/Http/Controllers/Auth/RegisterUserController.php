@@ -17,6 +17,6 @@ class RegisterUserController extends Controller
     {
         $user = new User($request->toArray());
         $user->save();
-        return redirect()->route('show.login');
+        return redirect()->route('login.show');
     }
 }

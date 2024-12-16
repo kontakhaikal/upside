@@ -1,0 +1,5 @@
+export { type JoinedSideProps } from './JoinedSide.vue'
+export { default as JoinedSides } from './JoinedSides.vue'
+export { type PopularSideProps } from './PopularSide.vue'
+export { default as PopularSides } from './PopularSides.vue'
+export { default as Side } from './Side.vue'
