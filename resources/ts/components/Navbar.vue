@@ -1,17 +1,28 @@
 <script setup lang="ts">
-import { useAuth } from '@/lib/hooks'
+import { useAuth, useTailwindResize } from '@/lib/hooks'
 import { Link } from '@inertiajs/vue3'
+import { ref } from 'vue'
 import Logo from './Logo.vue'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Button } from './ui/button'
 
 const user = useAuth()
+
+const full = ref(false)
+
+useTailwindResize((br) => {
+    if (br.greaterOrEqual('lg').value) {
+        full.value = true
+        return
+    }
+    full.value = false
+})
 </script>
 
 <template>
-    <div class="container flex items-center justify-between py-4 border-b">
+    <div class="container flex items-center justify-between py-2 border-b">
         <Link href="/">
-            <Logo class="h-8 w-min" />
+            <Logo :full class="w-8 h-8 lg:w-min" />
         </Link>
         <nav></nav>
         <div>

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { SquareDashedIcon } from 'lucide-vue-next';
-import { Button } from '../button';
-import { Card, CardContent, CardHeader, CardTitle } from '../card';
-import JoinedSide, { JoinedSideProps } from './JoinedSide.vue';
+import { SquareDashedIcon } from 'lucide-vue-next'
+import { Button } from '../button'
+import { Card, CardContent, CardHeader, CardTitle } from '../card'
+import JoinedSide, { JoinedSideProps } from './JoinedSide.vue'
 
 defineProps<{ sides: JoinedSideProps[] }>()
 </script>

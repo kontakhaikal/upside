@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
+
 use App\Dto\CreatePostRequest;
-use App\Dto\PostData;
 use App\Exceptions\MembershipNotFoundException;
 use App\Exceptions\PostNotFoundException;
 use App\Exceptions\SideNotFoundException;
@@ -12,6 +12,7 @@ use App\Models\Post;
 use App\Models\Side;
 use App\Models\User;
 use Spatie\LaravelData\DataCollection;
+use \App\Dto\Post\PostData;
 
 class PostService
 {
@@ -44,7 +45,12 @@ class PostService
 
     public function getPostList(): DataCollection
     {
-        $posts = Post::all();
-        return PostData::collect($posts, DataCollection::class);
+        $posts = Post::with([
+            'membership' => [
+                'user',
+                'side'
+            ]
+        ])->get();
+        return PostData::collectFromPostModel($posts);
     }
 }

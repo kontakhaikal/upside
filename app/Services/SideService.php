@@ -3,10 +3,9 @@
 namespace App\Services;
 
 use App\Dto\CreateSideRequest;
-use App\Dto\MembershipData;
-use App\Dto\PopularSideData;
-use App\Dto\JoinedSideData;
-use App\Dto\SideDetailData;
+use App\Dto\Side\PopularSideData;
+use App\Dto\Side\JoinedSideData;
+use App\Dto\Side\SideData;
 use App\Exceptions\AlreadyJoinedSideException;
 use App\Exceptions\SideNotFoundException;
 use App\Models\Membership;
@@ -39,14 +38,16 @@ class SideService
         });
     }
 
-    public function getSideDetail(string $sideId): SideDetailData
+    public function getSideDetail(string $sideId): SideData
     {
-        $side = Side::with('posts')->find($sideId)->first();
-        return SideDetailData::from($side);
+        $side = Side::with('posts.membership.user')
+            ->find($sideId)
+            ->firstOr(callback: fn() => throw new SideNotFoundException());
+        return SideData::fromSideModel($side);
     }
 
     /**
-     * @return \Spatie\LaravelData\DataCollection<\App\Dto\PopularSideData>
+     * @return \Spatie\LaravelData\DataCollection<PopularSideData>
      */
     public function getPopularSides(User|null $user): DataCollection
     {
@@ -62,7 +63,7 @@ class SideService
         $popularSidesData = $popularSides->map(
             fn(Side $side) => new PopularSideData(
                 $side->id,
-                $side->isUserMembership($user->id)
+                $side->hasMemberOfUser($user)
             )
         );
 
@@ -74,7 +75,7 @@ class SideService
 
     /**
      * @param \App\Models\User $user
-     * @return \Spatie\LaravelData\DataCollection
+     * @return \Spatie\LaravelData\DataCollection<JoinedSideData>
      */
     public function getJoinedSides(User $user): DataCollection
     {
@@ -88,7 +89,7 @@ class SideService
         $side = Side::where('id', $sideId)
             ->firstOr(fn() => throw new SideNotFoundException());
 
-        if ($side->isUserMembership($user->id)) {
+        if ($side->hasMemberOfUser($user)) {
             throw new AlreadyJoinedSideException();
         }
 

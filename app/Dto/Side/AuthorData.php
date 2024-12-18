@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Dto;
+namespace App\Dto\Side;
 
 use Spatie\LaravelData\Data;
 
-class SideData extends Data
+class AuthorData extends Data
 {
     public function __construct(
         public string $id,
-        public string $avatar
+        public string $username,
     ) {
     }
 }

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Error from '@/components/Error.vue'
 import AuthLayout from '@/components/layout/AuthLayout.vue'
+import Logo from '@/components/Logo.vue'
 import Button from '@/components/ui/button/Button.vue'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -19,9 +20,14 @@ const submit = () => {
 
 <template>
     <AuthLayout>
-        <div class="flex flex-col w-full gap-y-6 max-w-[22rem] mt-[6rem] h-min">
+        <div
+            class="flex flex-col w-full gap-y-6 max-w-[22rem] mt-[4rem] h-min px-8 md:px-2">
             <div class="grid text-center place-items-center">
-                <h1 class="text-2xl font-semibold tracking-tight text-primary">
+                <Link href="/">
+                    <Logo :full="false" />
+                </Link>
+                <h1
+                    class="mt-4 text-xl font-semibold tracking-tight text-primary">
                     Create an account
                 </h1>
                 <p class="mt-2 text-sm max-w-64 text-muted-foreground">

@@ -1,8 +1,8 @@
 <?php
-namespace App\Dto;
 
-use Carbon\CarbonImmutable;
-use Spatie\LaravelData\Attributes\LoadRelation;
+namespace App\Dto\Side;
+
+
 use Spatie\LaravelData\Data;
 
 class PostData extends Data
@@ -12,12 +12,9 @@ class PostData extends Data
         public string $title,
         public string $body,
         public int $score,
-        #[LoadRelation]
-        public SideData $side,
-        #[LoadRelation]
         public AuthorData $author,
-        public CarbonImmutable $createdAt,
-        public CarbonImmutable $updatedAt,
+        public int $createdAt,
+        public int $updatedAt,
     ) {
     }
 }

@@ -26,8 +26,8 @@ export interface PostProps {
 import HomeCard from '@/components/HomeCard.vue'
 import HomeMenu from '@/components/HomeMenu.vue'
 import Navbar from '@/components/Navbar.vue'
-import { Button } from '@/components/ui/button'
 import { Post } from '@/components/ui/post'
+import PostFilter from '@/components/ui/post/PostFilter.vue'
 import {
     JoinedSideProps,
     JoinedSides,
@@ -35,12 +35,7 @@ import {
     PopularSides,
 } from '@/components/ui/side'
 import { useAuth } from '@/lib/hooks'
-import {
-    BellIcon,
-    FlameIcon,
-    TextSelectIcon,
-    TrendingUpIcon,
-} from 'lucide-vue-next'
+import { TextSelectIcon } from 'lucide-vue-next'
 
 const props = defineProps<{
     popularSides: PopularSideProps[]
@@ -53,37 +48,22 @@ const user = useAuth()
 
 <template>
     <Navbar />
-    <main class="container grid lg:grid-cols-12 gap-x-2 dark:bg-secondary">
+    <main class="container grid lg:grid-cols-12 gap-x-2 bg-secondary">
         <div
             class="sticky flex-col hidden h-screen col-span-3 pr-4 mt-4 overflow-y-scroll lg:flex top-4 gap-y-4">
             <JoinedSides v-if="user" :sides="joinedSides" />
             <PopularSides :sides="popularSides" />
         </div>
         <div class="mt-4 lg:col-span-6">
-            <ul class="grid gap-y-4">
-                <div class="flex justify-between">
-                    <div class="flex border rounded-md shadow-sm w-min bg-card">
-                        <Button variant="ghost" class="rounded-r-none">
-                            <FlameIcon />
-                            <p class="hidden md:block">Latest</p>
-                        </Button>
-                        <Button variant="ghost" class="rounded-none border-x">
-                            <TrendingUpIcon />
-                            <p class="hidden md:block">Trending</p>
-                        </Button>
-                        <Button
-                            variant="ghost"
-                            class="rounded-l-none dark:rounded-none">
-                            <BellIcon />
-                            <p class="hidden md:block">Subscribed</p>
-                        </Button>
-                    </div>
-                    <div class="lg:hidden">
-                        <HomeMenu
-                            :joined-sides="joinedSides"
-                            :popular-sides="popularSides" />
-                    </div>
+            <div class="flex justify-between">
+                <PostFilter defaultFilter="latest" />
+                <div class="lg:hidden">
+                    <HomeMenu
+                        :joined-sides="joinedSides"
+                        :popular-sides="popularSides" />
                 </div>
+            </div>
+            <ul class="grid mt-4 gap-y-1 md:gap-y-2">
                 <li v-if="posts.length > 0" v-for="post in posts">
                     <Post :post />
                 </li>

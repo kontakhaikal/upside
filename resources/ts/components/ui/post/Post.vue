@@ -38,12 +38,12 @@ defineProps<{ post: PostProps }>()
 </script>
 
 <template>
-    <Card class="p-2">
-        <CardHeader>
+    <Card>
+        <CardHeader class="p-2 border-b md:p-4">
             <div>
-                <div class="flex gap-x-4">
-                    <div>
-                        <Avatar class="w-12 h-12 text-2xl">
+                <div class="flex items-center gap-x-4">
+                    <div class="mt-1">
+                        <Avatar>
                             <AvatarImage :src="post.side.avatar" />
                             <AvatarFallback>
                                 <div
@@ -55,34 +55,35 @@ defineProps<{ post: PostProps }>()
                             </AvatarFallback>
                         </Avatar>
                     </div>
-                    <div>
-                        <div class="flex items-center gap-x-2">
+                    <div class="flex flex-col justify-between">
+                        <div class="flex items-center text-sm gap-x-2">
                             <p>
                                 u/<span class="font-semibold">{{
                                     post.author.username
                                 }}</span>
                             </p>
+
                             <p class="text-sm text-muted-foreground">
-                                <span>Posted on </span>
-                                <span>s/</span
-                                ><Link
-                                    :href="'/s/' + post.side.id"
-                                    class="font-semibold underline text-primary"
-                                    >{{ post.side.id }}</Link
-                                >
+                                {{ since(post.createdAt) }}
                             </p>
                         </div>
                         <p class="text-sm text-muted-foreground">
-                            {{ since(post.createdAt) }}
+                            <span>Posted on </span>
+                            <span>s/</span
+                            ><Link
+                                :href="'/s/' + post.side.id"
+                                class="font-semibold underline text-primary"
+                                >{{ post.side.id }}</Link
+                            >
                         </p>
                     </div>
                 </div>
             </div>
         </CardHeader>
-        <CardContent>
+        <CardContent class="p-4">
             <p>{{ post.body }}</p>
         </CardContent>
-        <CardFooter class="gap-x-4">
+        <CardFooter class="px-2 py-2 gap-x-4 md:px-4">
             <div class="flex items-center">
                 <Button variant="ghost" class="px-2 py-1">
                     <ChevronUpIcon />
