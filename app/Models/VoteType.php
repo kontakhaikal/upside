@@ -5,4 +5,5 @@ enum VoteType: int
 {
     case UPVOTE = 1;
     case DOWNVOTE = -1;
+
 }

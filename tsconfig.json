@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+        "target": "ESNext",
         "paths": {
             "@/*": ["./resources/ts/*"],
             "@/components/*": ["./resources/ts/components/*"],

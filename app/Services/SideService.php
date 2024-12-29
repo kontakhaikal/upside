@@ -25,14 +25,14 @@ class SideService
             $side->name = $req->name;
             $side->description = $req->description;
 
-            $side->save();
+            $side->saveOrFail();
 
             $membership = new Membership();
             $membership->role = Role::ADMIN;
             $membership->user()->associate($user);
             $membership->side()->associate($side);
 
-            $membership->save();
+            $membership->saveOrFail();
 
             return $side->id;
         });

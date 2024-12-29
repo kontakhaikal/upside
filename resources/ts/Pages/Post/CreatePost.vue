@@ -33,7 +33,7 @@ const submit = () => {
 <template>
     <Navbar />
     <div class="container min-h-screen pt-4 bg-secondary">
-        <Card class="max-w-[42rem]">
+        <Card class="max-w-[36rem] mx-auto">
             <CardHeader> <CardTitle> Create new post </CardTitle> </CardHeader>
             <CardContent>
                 <form

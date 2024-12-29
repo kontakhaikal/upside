@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Dto\LoginUserRequest;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class LoginUserController extends Controller
 {
@@ -13,11 +14,12 @@ class LoginUserController extends Controller
         return inertia()->render('Auth/Login');
     }
 
-    public function processLogin(LoginUserRequest $request)
+    public function processLogin(LoginUserRequest $loginUserRequest)
     {
+
         $success = auth()->attempt(
-            $request->only('username', 'password')->toArray(),
-            $request->rememberMe
+            $loginUserRequest->only('username', 'password')->toArray(),
+            $loginUserRequest->rememberMe
         );
 
         if (!$success) {

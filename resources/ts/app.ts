@@ -1,5 +1,6 @@
 'use strict'
 import { createInertiaApp } from '@inertiajs/vue3'
+import { VueQueryPlugin } from '@tanstack/vue-query'
 import { createApp, DefineComponent, h, Plugin } from 'vue'
 import '../css/app.css'
 
@@ -30,6 +31,7 @@ const DarkMode: DarkModePlugin = {
 
 createInertiaApp({
     resolve: (name) => {
+        console.log({ name })
         const pages = import.meta.glob('./Pages/**/*.vue')
         return pages[`./Pages/${name}.vue`]()
     },
@@ -39,6 +41,7 @@ createInertiaApp({
         })
             .use(plugin)
             .use(DarkMode)
+            .use(VueQueryPlugin)
             .mount(el)
     },
 })

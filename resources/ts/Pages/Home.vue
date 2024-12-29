@@ -10,6 +10,11 @@ export interface UserProps {
     avatar: string
 }
 
+export interface FilteredPostProps {
+    readonly filter: Filter
+    readonly posts: PostProps[]
+}
+
 export interface PostProps {
     id: string
     title: string
@@ -27,7 +32,7 @@ import HomeCard from '@/components/HomeCard.vue'
 import HomeMenu from '@/components/HomeMenu.vue'
 import Navbar from '@/components/Navbar.vue'
 import { Post } from '@/components/ui/post'
-import PostFilter from '@/components/ui/post/PostFilter.vue'
+import PostFilter, { Filter } from '@/components/ui/post/PostFilter.vue'
 import {
     JoinedSideProps,
     JoinedSides,
@@ -35,12 +40,13 @@ import {
     PopularSides,
 } from '@/components/ui/side'
 import { useAuth } from '@/lib/hooks'
+import { router } from '@inertiajs/vue3'
 import { TextSelectIcon } from 'lucide-vue-next'
 
-const props = defineProps<{
+defineProps<{
     popularSides: PopularSideProps[]
     joinedSides: JoinedSideProps[]
-    posts: PostProps[]
+    filteredPost: FilteredPostProps
 }>()
 
 const user = useAuth()
@@ -48,7 +54,8 @@ const user = useAuth()
 
 <template>
     <Navbar />
-    <main class="container grid lg:grid-cols-12 gap-x-2 bg-secondary">
+    <main
+        class="container grid min-h-screen lg:grid-cols-12 gap-x-2 bg-secondary">
         <div
             class="sticky flex-col hidden h-screen col-span-3 pr-4 mt-4 overflow-y-scroll lg:flex top-4 gap-y-4">
             <JoinedSides v-if="user" :sides="joinedSides" />
@@ -56,7 +63,15 @@ const user = useAuth()
         </div>
         <div class="mt-4 lg:col-span-6">
             <div class="flex justify-between">
-                <PostFilter defaultFilter="latest" />
+                <PostFilter
+                    :defaultFilter="filteredPost.filter"
+                    :on-change="
+                        (filter) => {
+                            router.visit('/?posts=' + filter, {
+                                only: ['filteredPost'],
+                            })
+                        }
+                    " />
                 <div class="lg:hidden">
                     <HomeMenu
                         :joined-sides="joinedSides"
@@ -64,7 +79,10 @@ const user = useAuth()
                 </div>
             </div>
             <ul class="grid mt-4 gap-y-1 md:gap-y-2">
-                <li v-if="posts.length > 0" v-for="post in posts">
+                <li
+                    v-if="filteredPost.posts.length > 0"
+                    v-for="post in filteredPost.posts"
+                    :key="post.id">
                     <Post :post />
                 </li>
                 <div

@@ -19,22 +19,55 @@ export interface PostProps {
     score: number
     createdAt: number
     updatedAt: number
+    currentUserVote?: {
+        id: string
+        type: 'upvote' | 'downvote'
+    }
 }
 </script>
 
 <script setup lang="ts">
 import { abbreviate, since } from '@/lib/utils'
-import { Link } from '@inertiajs/vue3'
+import { Link, router } from '@inertiajs/vue3'
 import {
     ChevronDownIcon,
     ChevronUpIcon,
     MessageCircleIcon,
 } from 'lucide-vue-next'
+import { computed, ref } from 'vue'
 import { Avatar, AvatarFallback, AvatarImage } from '../avatar'
 import { Button } from '../button'
 import { Card, CardContent, CardFooter, CardHeader } from '../card'
 
-defineProps<{ post: PostProps }>()
+const props = defineProps<{ post: PostProps; refreshKey?: string[] }>()
+
+const currentVote = computed(() => props.post.currentUserVote?.type)
+
+const processing = ref(false)
+
+const upVote = () => {
+    router.post(`/p/${props.post.id}/_upvote`, undefined, {
+        onStart: () => (processing.value = true),
+        onFinish: () => (processing.value = false),
+        only: ['filteredPost', 'post'],
+    })
+}
+
+const downVote = () => {
+    router.post(`/p/${props.post.id}/_downvote`, undefined, {
+        onStart: () => (processing.value = true),
+        onFinish: () => (processing.value = false),
+        only: ['filteredPost', 'post'],
+    })
+}
+
+const revokeVote = () => {
+    router.post(`/p/${props.post.id}/_revoke-vote`, undefined, {
+        onStart: () => (processing.value = true),
+        onFinish: () => (processing.value = false),
+        only: ['filteredPost', 'post'],
+    })
+}
 </script>
 
 <template>
@@ -85,17 +118,49 @@ defineProps<{ post: PostProps }>()
         </CardContent>
         <CardFooter class="px-2 py-2 gap-x-4 md:px-4">
             <div class="flex items-center">
-                <Button variant="ghost" class="px-2 py-1">
+                <Button
+                    variant="ghost"
+                    class="p-3"
+                    :class="{
+                        'bg-secondary': currentVote == 'upvote',
+                    }"
+                    @click="
+                        () => {
+                            if (currentVote == 'upvote') {
+                                revokeVote()
+                                return
+                            }
+                            upVote()
+                        }
+                    "
+                    :disabled="processing">
                     <ChevronUpIcon />
                 </Button>
-                <span class="px-2">{{ abbreviate(post.score) }}</span>
-                <Button variant="ghost" class="px-2 py-1">
+                <span class="p-3">{{ abbreviate(post.score) }}</span>
+                <Button
+                    variant="ghost"
+                    class="p-3"
+                    :class="{
+                        'bg-secondary': currentVote == 'downvote',
+                    }"
+                    @click="
+                        () => {
+                            if (currentVote == 'downvote') {
+                                revokeVote()
+                                return
+                            }
+                            downVote()
+                        }
+                    "
+                    :disabled="processing">
                     <ChevronDownIcon />
                 </Button>
             </div>
-            <Button variant="ghost">
-                <MessageCircleIcon />
-            </Button>
+            <Link :href="`/p/${post.id}`">
+                <Button variant="ghost" class="p-3">
+                    <MessageCircleIcon />
+                </Button>
+            </Link>
         </CardFooter>
     </Card>
 </template>

@@ -20,8 +20,8 @@ const submit = () => {
 
 <template>
     <Navbar />
-    <main class="container min-h-screen pt-4 dark:bg-secondary">
-        <Card class="max-w-[32rem] p-2">
+    <main class="container min-h-screen pt-4 bg-secondary">
+        <Card class="max-w-[36rem] p-2 mx-auto">
             <CardHeader>
                 <CardTitle> Create new side </CardTitle>
             </CardHeader>

@@ -21,7 +21,12 @@ class Membership extends Model
      */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id', 'id', 'user');
+        return $this->belongsTo(
+            User::class,
+            'user_id',
+            'id',
+            'user'
+        );
     }
 
     /**
@@ -29,6 +34,11 @@ class Membership extends Model
      */
     public function side(): BelongsTo
     {
-        return $this->belongsTo(Side::class, 'side_id', 'id', 'side');
+        return $this->belongsTo(
+            Side::class,
+            'side_id',
+            'id',
+            'side'
+        );
     }
 }

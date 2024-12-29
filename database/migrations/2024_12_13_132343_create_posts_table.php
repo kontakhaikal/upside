@@ -19,13 +19,7 @@ return new class extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('votes', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->tinyInteger('type');
-            $table->foreignUuid('membership_id')->references('id')->on('memberships');
-            $table->foreignUuid('post_id')->references('id')->on('posts');
-            $table->timestamps();
-        });
+
     }
 
     /**
@@ -33,7 +27,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('votes');
         Schema::dropIfExists('posts');
     }
 };

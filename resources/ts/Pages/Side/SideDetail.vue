@@ -37,20 +37,24 @@ provide('user', props.user)
 
 <template>
     <Navbar />
-    <main
-        class="container mx-0 grid pt-4 lg:grid-cols-12 max-w-[58rem] gap-x-4">
-        <div class="hidden col-span-4 lg:block">
-            <SideDetailCard :side />
-        </div>
-        <div class="grid col-span-8">
-            <div class="mb-2 ml-auto lg:hidden">
-                <SideDetailMenu :side />
+    <main class="container min-h-screen pt-4 mx-0 bg-secondary">
+        <div class="grid lg:grid-cols-12 gap-x-4">
+            <div class="hidden col-span-3 lg:block"></div>
+            <div class="grid col-span-6">
+                <div class="mb-2 ml-auto lg:hidden">
+                    <SideDetailMenu :side />
+                </div>
+                <ul
+                    class="grid gap-y-1 md:gap-y-2"
+                    v-if="side.posts.length > 0">
+                    <li v-for="post of side.posts">
+                        <Post :post="{ ...post, side }" />
+                    </li>
+                </ul>
             </div>
-            <ul class="grid gap-y-1 md:gap-y-2" v-if="side.posts.length > 0">
-                <li v-for="post of side.posts">
-                    <Post :post="{ ...post, side }" />
-                </li>
-            </ul>
+            <div class="col-span-3">
+                <SideDetailCard :side />
+            </div>
         </div>
     </main>
 </template>

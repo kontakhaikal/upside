@@ -15,6 +15,7 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card'
+import { Link } from '@inertiajs/vue3'
 
 defineProps<{ side: SideProps }>()
 </script>
@@ -29,7 +30,9 @@ defineProps<{ side: SideProps }>()
             <p>{{ side.description }}</p>
         </CardContent>
         <CardFooter>
-            <Button class="w-full"> Create new post </Button>
+            <Link class="w-full" :href="`/s/${side.id}/p`">
+                <Button class="w-full"> Create new post </Button>
+            </Link>
         </CardFooter>
     </Card>
 </template>

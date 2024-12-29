@@ -11,24 +11,31 @@ class SideController extends Controller
     public function __construct(private SideService $sideService)
     {
     }
-    function showCreateSidePage(Request $request)
+
+    public function showCreateSidePostPage(string $sideId, Request $request)
     {
-        return inertia()->render('Side/CreateSide', );
+
+        return inertia()->render('Side/CreateSidePost', ['sideId' => $sideId]);
     }
 
-    function showSidePage(string $sideId, Request $request)
+    public function showCreateSidePage(Request $request)
+    {
+        return inertia()->render('Side/CreateSide');
+    }
+
+    public function showSidePage(string $sideId, Request $request)
     {
         $side = $this->sideService->getSideDetail($sideId);
         return inertia()->render('Side/SideDetail', ['side' => $side]);
     }
 
-    function processCreateSide(Request $request, CreateSideRequest $createSideRequest)
+    public function processCreateSide(Request $request, CreateSideRequest $createSideRequest)
     {
         $sideId = $this->sideService->createSide($request->user(), $createSideRequest);
         return redirect()->route('side.show', parameters: ['sideId' => $sideId]);
     }
 
-    function processJoinSide(string $sideId, Request $request)
+    public function processJoinSide(string $sideId, Request $request)
     {
         $sideId = $this->sideService->joinSide($request->user(), $sideId);
         return redirect()->back();
