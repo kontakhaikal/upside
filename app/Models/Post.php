@@ -27,15 +27,4 @@ class Post extends Model
     {
         return $this->belongsTo(Membership::class, relation: 'membership');
     }
-
-
-    public function userVote(User $user): Vote|null
-    {
-        return $this->votes()
-            ->whereHas(
-                'membership',
-                fn(Builder $query) =>
-                $query->where('user_id', $user->id)
-            )->first();
-    }
 }

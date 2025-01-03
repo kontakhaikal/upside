@@ -57,7 +57,7 @@ class PostData extends Data
         return new DataCollection(self::class, $postsData);
     }
 
-    public static function fromModel(Post $post, User|null $currentUser): self
+    public static function fromModel(Post $post, ?User $currentUser): self
     {
         $currentUserVote = $currentUser ? $post->userVote($currentUser) : null;
 

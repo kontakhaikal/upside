@@ -25,10 +25,10 @@ class PostController extends Controller
     public function showPostDetailPage(string $postId, Request $request)
     {
         $post = $this->postService->getPostDetail($request->user(), $postId);
-        $comments = $this->commentService->getComments();
+        $comments = $this->commentService->getComments($request->user());
         return inertia()->render('Post/PostDetail', [
             'post' => $post,
-            'comments' => fn() => $comments,
+            'comments' => $comments,
         ]);
     }
 

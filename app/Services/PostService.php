@@ -98,7 +98,7 @@ class PostService
 
         /** @var Vote */
         $vote = Vote::whereBelongsTo($membership)
-            ->whereBelongsTo($post)
+            ->whereMorphedTo('votable', $post)
             ->firstOr(fn() => throw new VoteNotFoundException());
 
         $vote->delete();

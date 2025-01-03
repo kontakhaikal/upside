@@ -8,17 +8,17 @@ export interface CommentProps {
     }
     score: number
     replies: ReplyProps[]
+    currentUserVote?: {
+        id: string
+        type: 'upvote' | 'downvote'
+    }
 }
 </script>
 
 <script lang="ts" setup>
+import Vote from '@/components/Vote.vue'
 import { router } from '@inertiajs/vue3'
-import {
-    ChevronDownIcon,
-    ChevronUpIcon,
-    MessageCircleMoreIcon,
-    MessageCirclePlusIcon,
-} from 'lucide-vue-next'
+import { MessageCircleMoreIcon, MessageCirclePlusIcon } from 'lucide-vue-next'
 import { ref } from 'vue'
 import { Avatar, AvatarFallback, AvatarImage } from '../avatar'
 import { Button } from '../button'
@@ -43,7 +43,7 @@ const upVoteComment = () => {
     router.post(`/p/${props.postId}/c/${props.comment.id}/_upvote`, undefined, {
         onStart: () => (processing.value = true),
         onFinish: () => (processing.value = false),
-        only: [],
+        preserveScroll: true,
     })
 }
 
@@ -54,7 +54,7 @@ const downVoteComment = () => {
         {
             onStart: () => (processing.value = true),
             onFinish: () => (processing.value = false),
-            only: [],
+            preserveScroll: true,
         }
     )
 }
@@ -66,7 +66,7 @@ const revokeVoteComment = () => {
         {
             onStart: () => (processing.value = true),
             onFinish: () => (processing.value = false),
-            only: [],
+            preserveScroll: true,
         }
     )
 }
@@ -93,15 +93,14 @@ const revokeVoteComment = () => {
         <CardContent class="p-3">{{ comment.body }} </CardContent>
         <CardFooter class="block p-0">
             <div class="flex items-center w-full py-3 border-b gap-x-4">
-                <div class="flex items-center pl-3">
-                    <Button class="p-3" variant="ghost">
-                        <ChevronUpIcon />
-                    </Button>
-                    <p class="p-3">{{ comment.score }}</p>
-                    <Button class="p-3" variant="ghost">
-                        <ChevronDownIcon />
-                    </Button>
-                </div>
+                <Vote
+                    class="pl-3"
+                    :current-vote="comment.currentUserVote?.type"
+                    :down-vote="downVoteComment"
+                    :up-vote="upVoteComment"
+                    :score="comment.score"
+                    :processing
+                    :revoke-vote="revokeVoteComment" />
 
                 <Button class="p-3" variant="ghost" @click="toggleShowedReply">
                     <MessageCircleMoreIcon />

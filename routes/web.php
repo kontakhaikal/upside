@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginUserController;
 use App\Http\Controllers\Auth\RegisterUserController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ReplyController;
@@ -32,4 +33,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/p/{postId}/_revoke-vote', [PostController::class, 'processRevokeVotePost']);
     Route::post('/p/{postId}/c', [PostController::class, 'processCreateComment']);
     Route::post('/p/{postId}/c/{commentId}', [PostController::class, 'processCreateReply']);
+    Route::post('/p/{postId}/c/{commentId}/_upvote', [CommentController::class, 'processUpvoteComment']);
+    Route::post('/p/{postId}/c/{commentId}/_downvote', [CommentController::class, 'processDownvoteComment']);
+    Route::post('/p/{postId}/c/{commentId}/_revoke-vote', [CommentController::class, 'processRevokeCommentVote']);
 });
